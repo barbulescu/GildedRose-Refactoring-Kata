@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version "1.9.10"
+	kotlin("jvm") version "2.0.21"
 	application
 }
 
@@ -15,6 +15,7 @@ repositories {
 dependencies {
 	implementation(kotlin("stdlib"))
 	testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+	testImplementation("org.assertj:assertj-core:3.26.3")
 }
 
 tasks.test {

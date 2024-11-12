@@ -1,16 +1,29 @@
 package com.gildedrose
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 internal class GildedRoseTest {
 
     @Test
-    fun foo() {
-        val items = listOf(Item("foo", 0, 0))
-        val app = GildedRose(items)
+    fun `no items`() {
+        val app = GildedRose(listOf())
+
         app.updateQuality()
-        assertEquals("fixme", app.items[0].name)
+
+        assertThat(app.items).isEmpty()
+
+    }
+
+
+    @Test
+    fun `one item empty`() {
+        val items = listOf(Item(name = "foo", sellIn = 0, quality = 0))
+        val app = GildedRose(items)
+
+        app.updateQuality()
+
+        assertThat(app.items).containsExactlyInAnyOrder(Item(name = "foo", sellIn = -1, quality = 0))
 
     }
 
