@@ -4,7 +4,7 @@ fun main(args: Array<String>) {
 
     println("OMGHAI!")
 
-    val items = listOf(
+    var items = listOf(
         Item("+5 Dexterity Vest", 10, 20), //
             Item("Aged Brie", 2, 0), //
             Item("Elixir of the Mongoose", 5, 7), //
@@ -17,20 +17,18 @@ fun main(args: Array<String>) {
             Item("Conjured Mana Cake", 3, 6)
     )
 
-    val app = GildedRose(items)
-
     var days = 2
     if (args.size > 0) {
         days = Integer.parseInt(args[0]) + 1
     }
 
-    for (i in 0..days - 1) {
+    for (i in 0..<days) {
         println("-------- day $i --------")
         println("name, sellIn, quality")
         for (item in items) {
             println(item)
         }
         println()
-        app.updateQuality()
+        items = updateQuality(items)
     }
 }

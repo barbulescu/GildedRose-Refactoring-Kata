@@ -2,59 +2,57 @@ package com.gildedrose
 
 data class Item(var name: String, var sellIn: Int, var quality: Int)
 
-class GildedRose(var items: List<Item>) {
+fun updateQuality(items: List<Item>) : List<Item>{
+    items.forEach { item -> item.updateQuality() }
+    return items
+}
 
-    fun updateQuality() {
-        for (item in items) {
-            if (item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert") {
-                if (item.quality > 0) {
-                    if (item.name != "Sulfuras, Hand of Ragnaros") {
-                        item.quality -= 1
+fun Item.updateQuality() {
+    if (name != "Aged Brie" && name != "Backstage passes to a TAFKAL80ETC concert") {
+        if (quality > 0) {
+            if (name != "Sulfuras, Hand of Ragnaros") {
+                quality -= 1
+            }
+        }
+    } else {
+        if (quality < 50) {
+            quality += 1
+
+            if (name == "Backstage passes to a TAFKAL80ETC concert") {
+                if (sellIn < 11) {
+                    if (quality < 50) {
+                        quality += 1
                     }
                 }
-            } else {
-                if (item.quality < 50) {
-                    item.quality += 1
 
-                    if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
-                                item.quality += 1
-                            }
-                        }
-
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
-                                item.quality += 1
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (item.name != "Sulfuras, Hand of Ragnaros") {
-                item.sellIn -= 1
-            }
-
-            if (item.sellIn < 0) {
-                if (item.name != "Aged Brie") {
-                    if (item.name != "Backstage passes to a TAFKAL80ETC concert") {
-                        if (item.quality > 0) {
-                            if (item.name != "Sulfuras, Hand of Ragnaros") {
-                                item.quality -= 1
-                            }
-                        }
-                    } else {
-                        item.quality -= item.quality
-                    }
-                } else {
-                    if (item.quality < 50) {
-                        item.quality += 1
+                if (sellIn < 6) {
+                    if (quality < 50) {
+                        quality += 1
                     }
                 }
             }
         }
     }
 
-}
+    if (name != "Sulfuras, Hand of Ragnaros") {
+        sellIn -= 1
+    }
 
+    if (sellIn < 0) {
+        if (name != "Aged Brie") {
+            if (name != "Backstage passes to a TAFKAL80ETC concert") {
+                if (quality > 0) {
+                    if (name != "Sulfuras, Hand of Ragnaros") {
+                        quality -= 1
+                    }
+                }
+            } else {
+                quality -= quality
+            }
+        } else {
+            if (quality < 50) {
+                quality += 1
+            }
+        }
+    }
+}
