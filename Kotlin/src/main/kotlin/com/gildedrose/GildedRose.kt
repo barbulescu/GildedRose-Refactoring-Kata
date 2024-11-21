@@ -17,23 +17,23 @@ fun Item.updateQuality() {
     if (name != CHEESE && name != CONCERT) {
         if (quality > 0) {
             if (name != SULFURAS) {
-                quality = quality - 1
+                quality--
             }
         }
     } else {
         if (quality < 50) {
-            quality = quality + 1
+            quality++
 
             if (name == CONCERT) {
                 if (sellIn < 11) {
                     if (quality < 50) {
-                        quality = quality + 1
+                        quality++
                     }
                 }
 
                 if (sellIn < 6) {
                     if (quality < 50) {
-                        quality = quality + 1
+                        quality++
                     }
                 }
             }
@@ -41,7 +41,7 @@ fun Item.updateQuality() {
     }
 
     if (name != SULFURAS) {
-        sellIn = sellIn - 1
+        sellIn--
     }
 
     if (sellIn < 0) {
@@ -49,15 +49,15 @@ fun Item.updateQuality() {
             if (name != CONCERT) {
                 if (quality > 0) {
                     if (name != SULFURAS) {
-                        quality = quality - 1
+                        quality--
                     }
                 }
             } else {
-                quality = quality - quality
+                quality = 0
             }
         } else {
             if (quality < 50) {
-                quality = quality + 1
+                quality++
             }
         }
     }
