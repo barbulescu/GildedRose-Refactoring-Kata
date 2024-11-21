@@ -8,12 +8,20 @@ class GildedRose(var items: List<Item>) {
     }
 }
 
+const val CHEESE = "Aged Brie"
 const val CONCERT = "Backstage passes to a TAFKAL80ETC concert"
 const val SULFURAS = "Sulfuras, Hand of Ragnaros"
-const val CHEESE = "Aged Brie"
 
 fun Item.updateQuality() {
     validate()
+    when (name) {
+        CHEESE -> updateCheeseQuality()
+        else -> updateGenericQuality()
+    }
+    validate()
+}
+
+private fun Item.updateGenericQuality() {
     if (name != CHEESE && name != CONCERT) {
         if (quality > 0) {
             if (name != SULFURAS) {
@@ -61,7 +69,16 @@ fun Item.updateQuality() {
             }
         }
     }
-    validate()
+}
+
+fun Item.updateCheeseQuality() {
+    sellIn--
+
+    quality += if (sellIn < 0) 2 else 1
+
+    if (quality > 50) {
+        quality = 50
+    }
 }
 
 private fun Item.validate() {
