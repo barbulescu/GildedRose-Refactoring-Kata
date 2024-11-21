@@ -75,6 +75,19 @@ class TestDataProvider : ArgumentsProvider {
         TestData(name = CHEESE, beforeSellIn = 1, beforeQuality = 10, afterSellIn = 0, afterQuality = 11),
         TestData(name = CHEESE, beforeSellIn = 0, beforeQuality = 10, afterSellIn = -1, afterQuality = 12),
         TestData(name = CHEESE, beforeSellIn = -1, beforeQuality = 10, afterSellIn = -2, afterQuality = 12),
+
+        TestData(name = CONCERT, beforeSellIn = 5, beforeQuality = 0, afterSellIn = 4, afterQuality = 3),
+        TestData(name = CONCERT, beforeSellIn = 5, beforeQuality = 50, afterSellIn = 4, afterQuality = 50),
+        TestData(name = CONCERT, beforeSellIn = 11, beforeQuality = 23, afterSellIn = 10, afterQuality = 24),
+        TestData(name = CONCERT, beforeSellIn = 10, beforeQuality = 23, afterSellIn = 9, afterQuality = 25),
+        TestData(name = CONCERT, beforeSellIn = 9, beforeQuality = 23, afterSellIn = 8, afterQuality = 25),
+        TestData(name = CONCERT, beforeSellIn = 6, beforeQuality = 23, afterSellIn = 5, afterQuality = 25),
+        TestData(name = CONCERT, beforeSellIn = 5, beforeQuality = 23, afterSellIn = 4, afterQuality = 26),
+        TestData(name = CONCERT, beforeSellIn = 4, beforeQuality = 23, afterSellIn = 3, afterQuality = 26),
+
+        TestData(name = CONCERT, beforeSellIn = 1, beforeQuality = 23, afterSellIn = 0, afterQuality = 26),
+        TestData(name = CONCERT, beforeSellIn = 0, beforeQuality = 23, afterSellIn = -1, afterQuality = 0),
+
     )
         .map { Arguments.of(it) }
         .asStream()
