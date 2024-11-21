@@ -17,23 +17,19 @@ fun Item.updateQuality() {
     when (name) {
         CHEESE -> updateCheeseQuality()
         CONCERT -> updateConcertQuality()
-        SULFURAS -> updateSulfurasQuality()
+        SULFURAS -> require(quality == 80) { "sulfuras quality must be always 80, but it was $quality" }
         else -> updateGenericQuality()
     }
     validate()
 }
 
 private fun Item.updateGenericQuality() {
-    if (quality > 0) {
-        quality--
-    }
+    quality -= if (sellIn > 0) 1 else 2
 
     sellIn--
 
-    if (sellIn < 0) {
-        if (quality > 0) {
-            quality--
-        }
+    if (quality < 0) {
+        quality = 0
     }
 }
 
@@ -64,11 +60,6 @@ private fun Item.updateConcertQuality() {
         quality = 0
     }
 }
-
-private fun Item.updateSulfurasQuality() {
-    require(quality == 80) { "sulfuras quality must be always 80, but it was $quality" }
-}
-
 
 private fun Item.validate() {
     if (name != SULFURAS) {
