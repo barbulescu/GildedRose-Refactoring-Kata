@@ -10,6 +10,7 @@ class GildedRose(var items: List<Item>) {
 
 const val CHEESE = "Aged Brie"
 const val CONCERT = "Backstage passes to a TAFKAL80ETC concert"
+const val CONJURED = "Conjured"
 const val SULFURAS = "Sulfuras, Hand of Ragnaros"
 
 fun Item.updateQuality() {
@@ -17,14 +18,16 @@ fun Item.updateQuality() {
     when (name) {
         CHEESE -> updateCheeseQuality()
         CONCERT -> updateConcertQuality()
+        CONJURED -> updateGenericQuality(multiplier = 2)
         SULFURAS -> require(quality == 80) { "sulfuras quality must be always 80, but it was $quality" }
-        else -> updateGenericQuality()
+        else -> updateGenericQuality(multiplier = 1)
     }
     validate()
 }
 
-private fun Item.updateGenericQuality() {
-    quality -= if (sellIn > 0) 1 else 2
+private fun Item.updateGenericQuality(multiplier: Int) {
+    val degradation = if (sellIn > 0) 1 else 2
+    quality -= degradation * multiplier
 
     sellIn--
 
