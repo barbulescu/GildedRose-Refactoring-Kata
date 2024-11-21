@@ -35,10 +35,11 @@ internal class GildedRoseTest {
             .hasMessage("quality must be in [0..50], but it was $quality")
     }
 
-    @Test
-    fun `sulfuras quality is always 80`() {
+    @ParameterizedTest
+    @ValueSource(ints = [-1, 0, 1])
+    fun `sulfuras quality is always 80`(sellIn: Int) {
         val quality = nextIntExcept(80)
-        val item = Item(SULFURAS, nextInt(), quality)
+        val item = Item(SULFURAS, sellIn, quality)
         assertThatThrownBy { item.updateQuality() }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("sulfuras quality must be always 80, but it was $quality")
@@ -57,7 +58,23 @@ internal class GildedRoseTest {
 
 class TestDataProvider : ArgumentsProvider {
     override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> = sequenceOf(
-        TestData(name = "foo", beforeSellIn = 0, beforeQuality = 0, afterSellIn = -1, afterQuality = 0),
+        TestData(name = "foo", beforeSellIn = 5, beforeQuality = 0, afterSellIn = 4, afterQuality = 0),
+        TestData(name = "foo", beforeSellIn = 5, beforeQuality = 10, afterSellIn = 4, afterQuality = 9),
+        TestData(name = "foo", beforeSellIn = 1, beforeQuality = 10, afterSellIn = 0, afterQuality = 9),
+        TestData(name = "foo", beforeSellIn = 0, beforeQuality = 10, afterSellIn = -1, afterQuality = 8),
+        TestData(name = "foo", beforeSellIn = -1, beforeQuality = 10, afterSellIn = -2, afterQuality = 8),
+
+        TestData(name = SULFURAS, beforeSellIn = 5, beforeQuality = 80, afterSellIn = 5, afterQuality = 80),
+        TestData(name = SULFURAS, beforeSellIn = 1, beforeQuality = 80, afterSellIn = 1, afterQuality = 80),
+        TestData(name = SULFURAS, beforeSellIn = 0, beforeQuality = 80, afterSellIn = 0, afterQuality = 80),
+        TestData(name = SULFURAS, beforeSellIn = -1, beforeQuality = 80, afterSellIn = -1, afterQuality = 80),
+
+        TestData(name = CHEESE, beforeSellIn = 5, beforeQuality = 0, afterSellIn = 4, afterQuality = 1),
+        TestData(name = CHEESE, beforeSellIn = 5, beforeQuality = 50, afterSellIn = 4, afterQuality = 50),
+        TestData(name = CHEESE, beforeSellIn = 5, beforeQuality = 10, afterSellIn = 4, afterQuality = 11),
+        TestData(name = CHEESE, beforeSellIn = 1, beforeQuality = 10, afterSellIn = 0, afterQuality = 11),
+        TestData(name = CHEESE, beforeSellIn = 0, beforeQuality = 10, afterSellIn = -1, afterQuality = 12),
+        TestData(name = CHEESE, beforeSellIn = -1, beforeQuality = 10, afterSellIn = -2, afterQuality = 12),
     )
         .map { Arguments.of(it) }
         .asStream()
