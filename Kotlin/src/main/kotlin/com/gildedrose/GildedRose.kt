@@ -8,10 +8,15 @@ class GildedRose(var items: List<Item>) {
     }
 }
 
-private fun Item.updateQuality() {
-    if (name != "Aged Brie" && name != "Backstage passes to a TAFKAL80ETC concert") {
+const val CONCERT = "Backstage passes to a TAFKAL80ETC concert"
+const val SULFURAS = "Sulfuras, Hand of Ragnaros"
+const val CHEESE = "Aged Brie"
+
+fun Item.updateQuality() {
+    require(quality >= 0) { "quality must be positive, but it was $quality" }
+    if (name != CHEESE && name != CONCERT) {
         if (quality > 0) {
-            if (name != "Sulfuras, Hand of Ragnaros") {
+            if (name != SULFURAS) {
                 quality = quality - 1
             }
         }
@@ -19,7 +24,7 @@ private fun Item.updateQuality() {
         if (quality < 50) {
             quality = quality + 1
 
-            if (name == "Backstage passes to a TAFKAL80ETC concert") {
+            if (name == CONCERT) {
                 if (sellIn < 11) {
                     if (quality < 50) {
                         quality = quality + 1
@@ -35,15 +40,15 @@ private fun Item.updateQuality() {
         }
     }
 
-    if (name != "Sulfuras, Hand of Ragnaros") {
+    if (name != SULFURAS) {
         sellIn = sellIn - 1
     }
 
     if (sellIn < 0) {
-        if (name != "Aged Brie") {
-            if (name != "Backstage passes to a TAFKAL80ETC concert") {
+        if (name != CHEESE) {
+            if (name != CONCERT) {
                 if (quality > 0) {
-                    if (name != "Sulfuras, Hand of Ragnaros") {
+                    if (name != SULFURAS) {
                         quality = quality - 1
                     }
                 }
@@ -56,5 +61,6 @@ private fun Item.updateQuality() {
             }
         }
     }
+    require(quality >= 0) { "quality must be positive, but it was $quality" }
 }
 
