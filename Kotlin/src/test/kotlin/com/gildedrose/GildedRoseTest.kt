@@ -2,6 +2,7 @@ package com.gildedrose
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -15,7 +16,7 @@ import kotlin.streams.asStream
 internal class GildedRoseTest {
 
     @ParameterizedTest
-    @ValueSource(strings = [CHEESE, CONCERT, SULFURAS, "foo"])
+    @ValueSource(strings = [CHEESE, CONCERT, "foo"])
     fun `quality can never be negative`(name: String) {
         val quality = -nextInt(1, 1000)
         val item = Item(name, nextInt(), quality)
@@ -25,13 +26,23 @@ internal class GildedRoseTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = [CHEESE, CONCERT, SULFURAS, "foo"])
+    @ValueSource(strings = [CHEESE, CONCERT, "foo"])
     fun `quality can never be more than 50`(name: String) {
         val quality = nextInt(51, 1000)
         val item = Item(name, nextInt(), quality)
         assertThatThrownBy { item.updateQuality() }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("quality must be in [0..50], but it was $quality")
+    }
+
+    @Test
+    fun `sulfuras quality is always 80`() {
+        val quality = nextIntExcept(80)
+        val item = Item(SULFURAS, nextInt(), quality)
+        assertThatThrownBy { item.updateQuality() }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage("sulfuras quality must be always 80, but it was $quality")
+
     }
 
     @ParameterizedTest
@@ -69,4 +80,11 @@ data class TestItem(val name: String, val sellIn: Int, val quality: Int)
 
 fun Item.toTestItem() = TestItem(name, sellIn, quality)
 
-
+fun nextIntExcept(except: Int): Int {
+    while (true) {
+        val value = nextInt(-1000, 1000)
+        if (value != except) {
+            return value
+        }
+    }
+}

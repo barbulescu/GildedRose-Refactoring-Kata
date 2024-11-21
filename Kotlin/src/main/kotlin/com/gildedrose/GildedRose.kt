@@ -65,6 +65,10 @@ fun Item.updateQuality() {
 }
 
 private fun Item.validate() {
-    require(quality in 0..50) { "quality must be in [0..50], but it was $quality" }
+    if (name == SULFURAS) {
+        require(quality == 80) { "sulfuras quality must be always 80, but it was $quality" }
+    } else {
+        require(quality in 0..50) { "quality must be in [0..50], but it was $quality" }
+    }
 }
 
