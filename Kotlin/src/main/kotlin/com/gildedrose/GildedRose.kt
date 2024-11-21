@@ -24,51 +24,15 @@ fun Item.updateQuality() {
 }
 
 private fun Item.updateGenericQuality() {
-    if (name != CHEESE && name != CONCERT) {
-        if (quality > 0) {
-            if (name != SULFURAS) {
-                quality--
-            }
-        }
-    } else {
-        if (quality < 50) {
-            quality++
-
-            if (name == CONCERT) {
-                if (sellIn < 11) {
-                    if (quality < 50) {
-                        quality++
-                    }
-                }
-
-                if (sellIn < 6) {
-                    if (quality < 50) {
-                        quality++
-                    }
-                }
-            }
-        }
+    if (quality > 0) {
+        quality--
     }
 
-    if (name != SULFURAS) {
-        sellIn--
-    }
+    sellIn--
 
     if (sellIn < 0) {
-        if (name != CHEESE) {
-            if (name != CONCERT) {
-                if (quality > 0) {
-                    if (name != SULFURAS) {
-                        quality--
-                    }
-                }
-            } else {
-                quality = 0
-            }
-        } else {
-            if (quality < 50) {
-                quality++
-            }
+        if (quality > 0) {
+            quality--
         }
     }
 }

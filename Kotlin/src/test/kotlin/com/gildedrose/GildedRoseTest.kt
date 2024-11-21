@@ -63,6 +63,9 @@ class TestDataProvider : ArgumentsProvider {
         TestData(name = "foo", beforeSellIn = 1, beforeQuality = 10, afterSellIn = 0, afterQuality = 9),
         TestData(name = "foo", beforeSellIn = 0, beforeQuality = 10, afterSellIn = -1, afterQuality = 8),
         TestData(name = "foo", beforeSellIn = -1, beforeQuality = 10, afterSellIn = -2, afterQuality = 8),
+        TestData(name = "foo", beforeSellIn = 0, beforeQuality = 0, afterSellIn = -1, afterQuality = 0),
+        TestData(name = "foo", beforeSellIn = 0, beforeQuality = 2, afterSellIn = -1, afterQuality = 0),
+        TestData(name = "foo", beforeSellIn = 1, beforeQuality = 1, afterSellIn = 0, afterQuality = 0),
 
         TestData(name = SULFURAS, beforeSellIn = 5, beforeQuality = 80, afterSellIn = 5, afterQuality = 80),
         TestData(name = SULFURAS, beforeSellIn = 1, beforeQuality = 80, afterSellIn = 1, afterQuality = 80),
