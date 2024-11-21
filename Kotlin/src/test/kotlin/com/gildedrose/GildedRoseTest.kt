@@ -21,7 +21,17 @@ internal class GildedRoseTest {
         val item = Item(name, nextInt(), quality)
         assertThatThrownBy { item.updateQuality() }
             .isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("quality must be positive, but it was $quality")
+            .hasMessage("quality must be in [0..50], but it was $quality")
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = [CHEESE, CONCERT, SULFURAS, "foo"])
+    fun `quality can never be more than 50`(name: String) {
+        val quality = nextInt(51, 1000)
+        val item = Item(name, nextInt(), quality)
+        assertThatThrownBy { item.updateQuality() }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage("quality must be in [0..50], but it was $quality")
     }
 
     @ParameterizedTest

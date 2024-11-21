@@ -13,7 +13,7 @@ const val SULFURAS = "Sulfuras, Hand of Ragnaros"
 const val CHEESE = "Aged Brie"
 
 fun Item.updateQuality() {
-    require(quality >= 0) { "quality must be positive, but it was $quality" }
+    require(quality in 0..50) { "quality must be in [0..50], but it was $quality" }
     if (name != CHEESE && name != CONCERT) {
         if (quality > 0) {
             if (name != SULFURAS) {
@@ -61,6 +61,6 @@ fun Item.updateQuality() {
             }
         }
     }
-    require(quality >= 0) { "quality must be positive, but it was $quality" }
+    require(quality in 0..50) { "quality must be in [0..50], but it was $quality" }
 }
 
