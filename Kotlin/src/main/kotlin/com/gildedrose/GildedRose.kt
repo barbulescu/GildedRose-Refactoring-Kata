@@ -14,36 +14,39 @@ const val CONJURED = "Conjured"
 const val SULFURAS = "Sulfuras, Hand of Ragnaros"
 
 fun Item.updateQuality() {
-    validate()
+    if (name == SULFURAS) {
+        require(quality == 80) { "sulfuras quality must be always 80, but it was $quality" }
+        return
+    }
+
+    require(quality in 0..50) { "quality must be in [0..50], but it was $quality" }
     when (name) {
         CHEESE -> updateCheeseQuality()
         CONCERT -> updateConcertQuality()
         CONJURED -> updateGenericQuality(multiplier = 2)
-        SULFURAS -> require(quality == 80) { "sulfuras quality must be always 80, but it was $quality" }
         else -> updateGenericQuality(multiplier = 1)
     }
-    validate()
+
+    enforceBounds()
+    sellIn--
+}
+
+private fun Item.enforceBounds() {
+    if (quality < 0) {
+        quality = 0
+    }
+    if (quality > 50) {
+        quality = 50
+    }
 }
 
 private fun Item.updateGenericQuality(multiplier: Int) {
     val degradation = if (sellIn > 0) 1 else 2
     quality -= degradation * multiplier
-
-    sellIn--
-
-    if (quality < 0) {
-        quality = 0
-    }
 }
 
 fun Item.updateCheeseQuality() {
-    sellIn--
-
-    quality += if (sellIn < 0) 2 else 1
-
-    if (quality > 50) {
-        quality = 50
-    }
+    quality += if (sellIn <= 0) 2 else 1
 }
 
 private fun Item.updateConcertQuality() {
@@ -53,20 +56,8 @@ private fun Item.updateConcertQuality() {
         else -> 1
     }
 
-    if (quality > 50) {
-        quality = 50
-    }
-
-    sellIn--
-
-    if (sellIn < 0) {
+    if (sellIn <= 0) {
         quality = 0
-    }
-}
-
-private fun Item.validate() {
-    if (name != SULFURAS) {
-        require(quality in 0..50) { "quality must be in [0..50], but it was $quality" }
     }
 }
 
