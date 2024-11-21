@@ -16,6 +16,7 @@ fun Item.updateQuality() {
     validate()
     when (name) {
         CHEESE -> updateCheeseQuality()
+        CONCERT -> updateConcertQuality()
         else -> updateGenericQuality()
     }
     validate()
@@ -78,6 +79,25 @@ fun Item.updateCheeseQuality() {
 
     if (quality > 50) {
         quality = 50
+    }
+}
+
+
+private fun Item.updateConcertQuality() {
+    quality += when {
+        sellIn < 6 -> 3
+        sellIn < 11 -> 2
+        else -> 1
+    }
+
+    if (quality > 50) {
+        quality = 50
+    }
+
+    sellIn--
+
+    if (sellIn < 0) {
+        quality = 0
     }
 }
 
